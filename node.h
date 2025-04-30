@@ -14,5 +14,17 @@ struct node{
     ~node() {delete data;}
 };
 
+// template<class type>
+// class Iterator{
+//     public:
+//         Iterator(node<type>* currentNode);
+//         type &operator*();
+//         Iterator operator++();
+//         bool operator==(const Iterator &otherIt) const;
+//         bool operator!=(const Iterator &otherIt) const;
+//     private:
+//         node<type>* current;
+// };
+
 
 #endif

@@ -4,7 +4,7 @@
 #include "linkedList.h"
 
 template <class type>
-class stack : linkedList<type>{
+class stack : public linkedList<type>{
 private:
     // this contains the type of deck that this stack is, used for move checking and scoring
     stackType deckType;

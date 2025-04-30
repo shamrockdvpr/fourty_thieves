@@ -4,7 +4,7 @@
 
 #include "card.h"
 #include <iostream>
-#include "linkedList.h"
+#include "doubleLinkedList.h"
 #include "main.h"
 
 /*
@@ -27,7 +27,7 @@ int main(){
     intList.insert(8);
     intList.insert(2);
     intList.insert(7);
-    intList.deleteItem(7);
+    //intList.deleteItem(7);
 
     intList.insert(0);
     intList.insert(5);
