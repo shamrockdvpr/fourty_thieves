@@ -2,6 +2,7 @@
 #define CARD_H
 #include <string>
 #include <iostream>
+#include <iomanip>
 
 enum Suit{
     SPADE=1,

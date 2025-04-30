@@ -5,7 +5,10 @@
 
 class move{
 public:
-    move(stack<card> &source, stack<card> &destination, card &movedCard, int currentScore) : source(&source), destination(&destination), movedCard(&movedCard), score(currentScore){
+    move(stack<card> &source, stack<card> &destination, card &movedCard, int currentScore) 
+        : source(&source), destination(&destination), movedCard(&movedCard), score(currentScore){
+
+        // assign variables and increment score
         if (destination.getType() == stack<card>::FOUNDATION){
             score += 5;
         }
@@ -23,9 +26,9 @@ public:
     const int getScore() const {return score;};
 
 private:
-    stack<card>* source;
-    stack<card>* destination;
-    card* movedCard;
+    const stack<card>* source;
+    const stack<card>* destination;
+    const card* movedCard;
     int score;
 };
 

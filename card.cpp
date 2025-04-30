@@ -52,9 +52,10 @@ bool card::operator!=(const card &otherCard) const
 
 std::ostream &operator<<(std::ostream &out, const card &cardOut)
 {
-    out << "\n+---+\n";
-    out << "|" << cardOut.getSuit() << "  |\n";
-    out << "|   |\n";
-    out << "|  " << cardOut.number << "|\n";
-    out << "+---+\n";
+    out << "\n+----+\n";
+    out << "|" << cardOut.getSuit() << "   |\n";
+    out << "|    |\n";
+    out << "|  " << std::setw(2) << cardOut.number << "|\n";
+    out << "+----+\n";
+    return out;
 }

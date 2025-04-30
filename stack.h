@@ -15,7 +15,7 @@ public:
         TABLEAU,
         STOCK,
         WASTE,
-    }
+    };
 
     // get the deck's type
     const stackType getType() const;
@@ -24,7 +24,7 @@ public:
 };
 
 template <class type>
-const enum stack<type>::stackType stack<type>::getType() const
+const stack<type>::stackType stack<type>::getType() const
 {
     return deckType;
 }

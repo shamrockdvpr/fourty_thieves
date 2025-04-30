@@ -1,5 +1,11 @@
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 #include "card.h"
 #include <iostream>
+#include "linkedList.h"
+#include "main.h"
 
 /*
     Note on suits:
@@ -10,19 +16,24 @@
 */
 
 int main(){
-    card aceOfSpaces(1, 1);
-    card fiveOfHearts(5, 2);
-    card tenOfDiamonds(10, 3);
+    #ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    #endif
 
-    std::cout << aceOfSpaces.getNumber() << std::endl;
-    std::cout << (fiveOfHearts > aceOfSpaces) << std::endl;
-    std::cout << (fiveOfHearts < aceOfSpaces) << std::endl;
-    std::cout << (fiveOfHearts >= aceOfSpaces) << std::endl;
-    std::cout << (fiveOfHearts <= aceOfSpaces) << std::endl;
-    std::cout << (fiveOfHearts == aceOfSpaces) << std::endl;
-    std::cout << (fiveOfHearts != aceOfSpaces) << std::endl;
-    std::cout << aceOfSpaces;
-    std::cout << fiveOfHearts;
-    std::cout << tenOfDiamonds;
+    linkedList<int> intList;
 
+
+    intList.insert(5);
+    intList.insert(8);
+    intList.insert(2);
+    intList.insert(7);
+    intList.deleteItem(7);
+
+    intList.insert(0);
+    intList.insert(5);
+    intList.insert(1000000);
+
+    for (auto it = intList.begin(); it != intList.end(); ++it){
+        std::cout << *it << std::endl;
+    };
 }
