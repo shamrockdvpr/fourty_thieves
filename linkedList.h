@@ -1,7 +1,31 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include "node.h"
+template <class type>
+struct node{
+    type* data;
+    // use as linked list -> link
+    // named as such to make it easier to handle binary trees
+    node<type>* right;
+    node<type>* left;
+
+    node() {left = nullptr; right = nullptr;};
+
+    ~node() {delete data;}
+};
+
+template <class type>
+class Iterator{
+public:
+    Iterator(node<type>* currentNode);
+    type& operator*();
+    Iterator<type> &operator++();
+    Iterator<type> &operator--();
+    bool operator==(const Iterator<type> &otherIt) const;
+    bool operator!=(const Iterator<type> &otherIt) const;
+protected:
+    node<type>* current;
+};
 
 template <class type>
 class linkedList{
@@ -26,24 +50,13 @@ public:
     virtual void insert(const type &newItem);
     virtual void deleteItem(const type &deleteItem);
 
-    class Iterator{
-    public:
-        Iterator(node<type>* currentNode);
-        type &operator*();
-        Iterator operator++();
-        bool operator==(const Iterator &otherIt) const;
-        bool operator!=(const Iterator &otherIt) const;
-    private:
-        node<type>* current;
-    };
-
-    Iterator begin();
-    Iterator end();
+    virtual Iterator<type> begin();
+    virtual Iterator<type> end();
 };
 
 // Operations Defined:
 
-// *** Simple Operations *** //
+/************ Simple Operations *****************/
 
 // returns true if the list is empty
 template <class type>
@@ -73,7 +86,8 @@ type linkedList<type>::back() const
     if (last != nullptr) return *(last->data);
 }
 
-// ** Complex Operations ** //
+
+/*************************** Complex Operations ***************************/
 
 // copys the conents of a different list into the current list
 template <class type>
@@ -124,7 +138,8 @@ void linkedList<type>::initializeList()
     count = 0;
 }
 
-// ** Main Operations ** //
+
+/************ Main Operations ************/
 
 // finds if an item is in the list, returns an bool if obj is present in list
 template <class type>
@@ -151,9 +166,8 @@ bool linkedList<type>::search(const type &searchItem) const{
 template <class type>
 void linkedList<type>::insert(const type &newItem)
 {
-    node<type>* newNode = new node<type>;
+    node<type>* newNode = new node<type>();
     newNode->data = new type(newItem);
-    newNode->right = nullptr;
 
     if (isEmpty()){
         first = newNode;
@@ -215,7 +229,8 @@ void linkedList<type>::deleteItem(const type &deleteItem)
 	}
 }
 
-// ** Constructors/Destructors ** //
+
+/***********Constructors/Destructors************/
 
 // destructor
 template <class type>
@@ -240,46 +255,58 @@ linkedList<type>::linkedList(const linkedList<type> &otherList)
     copyList(otherList);
 }
 
+
+/***********Iterator Operators Specific to Linked list Access************/
+
 // returns an Iterator to the first node
 template <class type>
-typename linkedList<type>::Iterator linkedList<type>::begin()
+Iterator<type> linkedList<type>::begin()
 {
-    Iterator it(first);
-    return it;
+    return Iterator<type>(first);
 }
 
 // returns an Iterator to the last node
 template <class type>
-typename linkedList<type>::Iterator linkedList<type>::end()
+Iterator<type> linkedList<type>::end()
 {
-    Iterator it(last);
-    return it;
+    return Iterator<type>(last);
 }
 
+
+/****** Iterator Methods ******/
+
 template <class type>
-linkedList<type>::Iterator::Iterator(node<type> *currentNode) : current(currentNode)
+Iterator<type>::Iterator(node<type> *currentNode) : current(currentNode)
 {}
 
 template <class type>
-type &linkedList<type>::Iterator::operator*()
+type& Iterator<type>::operator*()
 {
     return *(current->data);
 }
 
 template <class type>
-typename linkedList<type>::Iterator linkedList<type>::Iterator::operator++(){
+Iterator<type>& Iterator<type>::operator++()
+{
     current = current->right;
     return *this;
 }
 
 template <class type>
-bool linkedList<type>::Iterator::operator==(const Iterator &otherIt) const
+Iterator<type> &Iterator<type>::operator--()
+{
+    current = current->left;
+    return *this;
+}
+
+template <class type>
+bool Iterator<type>::operator==(const Iterator<type> &otherIt) const
 {
     return *(current->data) == *(otherIt.current->data);
 }
 
 template <class type>
-bool linkedList<type>::Iterator::operator!=(const Iterator &otherIt) const
+bool Iterator<type>::operator!=(const Iterator<type> &otherIt) const
 {
     return !(*(current->data) == *(otherIt.current->data));
 }

@@ -35,4 +35,60 @@ void doubleLinkedList<type>::insert(const type &newItem)
     }
 }
 
+template <class type>
+void doubleLinkedList<type>::deleteItem(const type &deleteItem)
+{
+    node<type>* curr = this->first;
+    node<type>* tempTail = this->first;
+    bool found = false;
+
+    if (this->isEmpty()){
+        throw(std::out_of_range("Cannot delete from empty list"));
+    }
+
+	if (deleteItem == *(this->first->data)){ //first item deletion
+        found = true;
+        // go over to the next item, set the left pointer to the nullptr
+        this->first->right->left = nullptr;
+        // shift the first item to be the previous second item
+		this->first = this->first->right;
+        // delete the node that needs to be deleted and decrease the count
+		delete curr;
+		--this->count;
+	}
+
+	else {
+		while (curr != nullptr){
+			
+			if (*(curr->data) == *(this->last->data)){ //last item deletion
+                found = true;
+
+				this->last = tempTail;
+				this->last->right = nullptr;
+
+				delete curr;
+				--this->count; 
+				break;
+			}
+
+			if (deleteItem == *(curr->data)) { //mid list delete
+                found = true;
+
+                // set the nodes to point around the current node scheduled for removal
+				tempTail->right = curr->right;
+                curr->right->left = tempTail;
+
+				delete curr;
+				--this->count;
+				break;
+			}
+
+			tempTail = curr;
+			curr = curr->right;
+		}
+
+        if (!found) throw(std::out_of_range("Item not in list"));
+	}
+}
+
 #endif
