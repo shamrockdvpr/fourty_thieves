@@ -5,92 +5,56 @@
 #include "card.h"
 #include <iostream>
 #include "doubleLinkedList.h"
-#include "main.h"
-
+#include "stack.h"
+#include "gamespace.h"
 
 int main(){
     #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
     #endif
 
-    linkedList<int> intList;
-    doubleLinkedList<int> dblList;
+/* TODO:
 
-    /* TODO:
-        - Debug linked and double linked list
-        - debug delete from linked and double linked
-            Priority: URGENT
-            need to get this fixed BEFORE starting stack and trees
-        - Fix documentation
-        - implement stack
-        - implement tree
-        - implement binary tree
-        - UI Demo for testing
-        - begin on game functionality
-        - Begin UI development
-        - Final Tests
-        - Project Summary
-    */
+- Implement game functions
+    - input parsing
+    - moves
+    - move
+    - undo function
+    - Shuffling!!!
 
-    intList.insert(5);
-    intList.insert(8);
-    intList.insert(6);
-    intList.insert(5);
-    intList.insert(8);
-    intList.insert(8);
-    intList.insert(266);
-    intList.insert(77);
-    intList.insert(55);
-    intList.insert(2);
-    intList.insert(9);
-    intList.insert(787);
-    intList.insert(55);
-    intList.insert(83);
-    intList.insert(29);
-    intList.insert(77);
+- hint system
+    - tree
+    - binary tree
+    - hint function
 
-    dblList.insert(5);
-    dblList.insert(8);
-    dblList.insert(6);
-    dblList.insert(5);
-    dblList.insert(8);
-    dblList.insert(8);
-    dblList.insert(266);
-    dblList.insert(77);
-    dblList.insert(55);
-    dblList.insert(2);
-    dblList.insert(9);
-    dblList.insert(787);
-    dblList.insert(55);
-    dblList.insert(83);
-    dblList.insert(29);
-    dblList.insert(77);
+- wrapping up
+    - Final Tests
+    - Playtesting
+    - Project Summary
 
-    std::cout << "Single Linked:" << std::endl;
-    auto it = intList.begin();
-    std::cout << *it << std::endl;
-    do
-    {
-        ++it;
-        std::cout << *it << std::endl;
-    } while (it != intList.end());
+*/
 
-    std::cout << "Forwards:" << std::endl;
-    it = dblList.begin();
-    std::cout << *it << std::endl;
-    do
-    {
-        ++it;
-        std::cout << *it << std::endl;
-    } while (it != dblList.end());
+    gamespace game;
+    std::cout << game << std::endl;
+    game.moveCards(2, 7);
+    game.moveCards(2, 7);
+    game.moveCards(2, 7);
+    game.moveCards(2, 7);
+    game.moveCards(5, 6);
+    std::cout << game << std::endl;
 
-    std::cout << "Backwards:" << std::endl;
-    it = dblList.end();
-    std::cout << *it << std::endl;
-    do
-    {
-        --it;
-        std::cout << *it << std::endl;
-    } while (it != dblList.begin());
+    //gameplay loop
+    // show board using <<
+    // wait for input
+    // parse input
+    // case 1
+    //      send to moveCards()
+    // case 2
+    //      send to undoMove()
+    // check for game end state
+    // output win or lose if needed
+    // offer to play again
+    // either reset board or exit program
     
+    return 0;
 }

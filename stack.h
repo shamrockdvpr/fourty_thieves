@@ -5,34 +5,71 @@
 
 template <class type>
 class stack : public linkedList<type>{
-private:
-    // this contains the type of deck that this stack is, used for move checking and scoring
-    stackType deckType;
-
 public:
-    enum stackType{
-        FOUNDATION,
-        TABLEAU,
-        STOCK,
-        WASTE,
-    };
+    // constructor
+    stack(int max);
 
-    // get the deck's type
-    const stackType getType() const;
+    // basic operations
+    const bool isFull() const {return this->count >= maxSize;};
+    bool isEmpty() const {return (stackTop == nullptr);};
 
-    const bool isFull() const;
+    // main operations
+    void push(const type&);
+    type pop();
+    type peek() const;
+
+private:
+    node<type>* stackTop;
+    const int maxSize;
 };
 
 template <class type>
-const stack<type>::stackType stack<type>::getType() const
+stack<type>::stack(int max) : maxSize(max){ 
+    stackTop = nullptr;
+    this->count = 0;
+}
+
+// the insert function already does all the operations in the way it should
+template <class type>
+void stack<type>::push(const type &newItem)
 {
-    return deckType;
+    if (isFull()){
+        throw std::overflow_error("Stack Overflow");
+    }
+    node<type>* newNode = new node<type>;
+    newNode->data = new type(newItem);
+    newNode->right = stackTop;
+
+    stackTop = newNode;
+    this->count++;
 }
 
 template <class type>
-const bool stack<type>::isFull() const
+type stack<type>::peek() const
 {
-    // return true if the stack is a sequence from ace to king
+    if (isEmpty()){
+        throw std::out_of_range("Empty Stack");
+    }
+    return *(stackTop->data);
+}
+
+template <class type>
+type stack<type>::pop()
+{  
+    node<type> *temp;
+
+    if (isEmpty()){
+        throw std::underflow_error("Stack Underflow");
+    }
+
+    temp = stackTop;
+    stackTop = stackTop->right;
+
+    // clean up: return data stored, decrease count, free memory
+    type returnItem = *(temp->data);
+    delete temp;
+    this->count--;
+    return returnItem;
 }
 
 #endif

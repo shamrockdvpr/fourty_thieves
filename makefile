@@ -1,5 +1,5 @@
 all: main.cpp card.h card.cpp card main
-main: main.cpp
+main: main.cpp gamespace.h
 	g++ -pedantic-errors -g main.cpp card -o main
 
 card: card.h card.cpp

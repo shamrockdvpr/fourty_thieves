@@ -3,22 +3,27 @@
 
 #include "linkedList.h"
 
+// creates a double linked list that extends off linked list
 template <class type>
 class doubleLinkedList : public linkedList<type>{
 public:
     doubleLinkedList() : linkedList<type>() {};
+
     void insert(const type &newItem) override;
     void deleteItem(const type &deleteItem) override;
 };
 
+// inserts an item into the double directional list
 template <class type>
 void doubleLinkedList<type>::insert(const type &newItem)
 {
+    // creates a new node
     node<type>* newNode = new node<type>;
     newNode->data = new type(newItem);
     newNode->right = nullptr;
     newNode->left = nullptr;
 
+    // first item insert
     if (this->isEmpty()){
         this->first = newNode;
         this->last = newNode;
@@ -27,6 +32,7 @@ void doubleLinkedList<type>::insert(const type &newItem)
         ++this->count;
     }
 
+    // last item insert
     else{
         this->last->right = newNode;
         newNode->left = this->last;

@@ -5,7 +5,7 @@
 #include <iomanip>
 
 enum Suit{
-    SPADE=1,
+    SPADE=0,
     HEART,
     DIAMOND,
     CLUB
@@ -15,6 +15,7 @@ class card{
 public:
     card(int, int);
     const int getNumber() const;
+    const std::string getPrintableNum() const;
     const std::string getSuit() const;
 
     bool operator<(const card&) const;

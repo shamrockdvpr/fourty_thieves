@@ -1,62 +1,78 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
+// Defines a node structure for use in linked lists
 template <class type>
 struct node{
-    type* data;
-    // use as linked list -> link
-    // named as such to make it easier to handle binary trees
-    node<type>* right;
-    node<type>* left;
-
-    node() {left = nullptr; right = nullptr;};
-
-    ~node() {delete data;}
+    type *data;
+    // use as linked list -> link, named as such to make it easier to handle binary trees
+    node<type> *right;
+    node<type> *left;
+    ~node() {delete data;};
+    bool operator==(const node<type> &otherNode) const {return (*(data) == *(otherNode.data));}
+    bool operator!=(const node<type> &otherNode) const {return (*(data) != *(otherNode.data));}
 };
 
+// Defines an iterator class for traversal
 template <class type>
 class Iterator{
 public:
-    Iterator(node<type>* currentNode);
+    //constructor
+    Iterator(node<type> *currentNode);
+
+    bool hasNext() const;
+
+    // operator overloads
     type& operator*();
     Iterator<type> &operator++();
     Iterator<type> &operator--();
     bool operator==(const Iterator<type> &otherIt) const;
     bool operator!=(const Iterator<type> &otherIt) const;
+
 protected:
-    node<type>* current;
+    node<type> *current;
 };
 
+// linked list base class
 template <class type>
 class linkedList{
 protected:
-    node<type>* first;
-    node<type>* last;
+    node<type> *first;
+    node<type> *last;
     int count;
+
 private:
     void copyList(const linkedList<type> &otherList);
+
 public:
+    // constructors and destructors
+
     linkedList();
     linkedList(const linkedList<type> &otherList);
     ~linkedList();
 
+    // minor operations
+
     void initializeList();
-    bool isEmpty() const;
+    virtual bool isEmpty() const;
     int length() const;
     type front() const;
     type back() const;
+
+    // major operations
 
     virtual bool search(const type &searchItem) const;
     virtual void insert(const type &newItem);
     virtual void deleteItem(const type &deleteItem);
 
-    virtual Iterator<type> begin();
-    virtual Iterator<type> end();
+    // iterator operations
+    Iterator<type> begin();
+    Iterator<type> end();
 };
 
 // Operations Defined:
 
-/************ Simple Operations *****************/
+/************ Minor Operations *****************/
 
 // returns true if the list is empty
 template <class type>
@@ -93,29 +109,40 @@ type linkedList<type>::back() const
 template <class type>
 void linkedList<type>::copyList(const linkedList<type> &otherList)
 {
+    // creates a new node and a pointer to the current node
     node<type> *newNode;
     node<type> *current;
+
+    // if the current list isn't empty, clear all data
     if (first != nullptr) initializeList();
+
+    // if the other list is empty, set the new list to be empty
     if (otherList.first == nullptr){
         first = nullptr;
         last = nullptr;
         count = 0;
     }
+
     else{
+        // start current at the beginning of the other list
         current = otherList.first;
         count = otherList.count;
 
+        // create a first node and init the list
         first = new node<type>();
         first->data = current->data;
-
         last = first;
 
+        // begin iteration
         current = current->right;
         while (current != nullptr)
         {
+            // create new nodes
             newNode = new node<type>();
             newNode->data = current->data;
             newNode->right = nullptr;
+
+            // insert into list and advance current
             last->right = newNode;
             last = newNode;
             current = current->right;
@@ -128,12 +155,17 @@ void linkedList<type>::copyList(const linkedList<type> &otherList)
 template <class type>
 void linkedList<type>::initializeList()
 {
+    // create a temporary pointer
     node<type>* temp;
+
+    // advance first foward over the list until the end, delete the data previously stored at first
     while (first != nullptr){
         temp = first;
         first = first->right;
         delete temp;
     }
+
+    // clean up
     last = nullptr;
     count = 0;
 }
@@ -145,11 +177,14 @@ void linkedList<type>::initializeList()
 template <class type>
 bool linkedList<type>::search(const type &searchItem) const{
 
+    // if the list is empty, the object will not exist
     if (isEmpty()) return false;
 
+    // iterate over the list
     node<type>* current;
     current = first;
 
+    // while not at the end of the list
     while (current != nullptr){
         if (searchItem == *(current->data)) {
             return true;
@@ -166,15 +201,18 @@ bool linkedList<type>::search(const type &searchItem) const{
 template <class type>
 void linkedList<type>::insert(const type &newItem)
 {
-    node<type>* newNode = new node<type>();
+    // creates new node
+    node<type> *newNode = new node<type>();
     newNode->data = new type(newItem);
 
+    // insert first if list is empty
     if (isEmpty()){
         first = newNode;
         last = newNode;
         ++count;
     }
 
+    // otherwise insert last
     else{
         last->right = newNode;
         last = newNode;
@@ -186,10 +224,12 @@ void linkedList<type>::insert(const type &newItem)
 template <class type>
 void linkedList<type>::deleteItem(const type &deleteItem)
 {
-    node<type>* curr = first;
-    node<type>* tempTail = first;
+    // create two nodes, one will point to the object being deleted, one will point to the one before it
+    node<type> *curr = first;
+    node<type> *tempTail = first;
     bool found = false;
 
+    // if list is empty
     if (isEmpty()){
         throw(std::out_of_range("Cannot delete from empty list"));
     }
@@ -202,6 +242,7 @@ void linkedList<type>::deleteItem(const type &deleteItem)
 	}
 
 	else {
+        // while not at item end
 		while (curr != nullptr){
 			
 			if (*(curr->data) == *(last->data)){ //last item deletion
@@ -275,16 +316,26 @@ Iterator<type> linkedList<type>::end()
 
 /****** Iterator Methods ******/
 
+// default constructor
 template <class type>
 Iterator<type>::Iterator(node<type> *currentNode) : current(currentNode)
 {}
 
+// returns true if the next item isnt the nullptr
+template <class type>
+bool Iterator<type>::hasNext() const
+{
+    return (current->right != nullptr) ? true : false;
+}
+
+// returns data stored at the iterator position
 template <class type>
 type& Iterator<type>::operator*()
 {
     return *(current->data);
 }
 
+// advances the iterator one forward
 template <class type>
 Iterator<type>& Iterator<type>::operator++()
 {
@@ -292,6 +343,7 @@ Iterator<type>& Iterator<type>::operator++()
     return *this;
 }
 
+// moves the iterator back one
 template <class type>
 Iterator<type> &Iterator<type>::operator--()
 {
@@ -299,12 +351,14 @@ Iterator<type> &Iterator<type>::operator--()
     return *this;
 }
 
+// returns true if the data stored at the iterator equals a different iterator
 template <class type>
 bool Iterator<type>::operator==(const Iterator<type> &otherIt) const
 {
     return *(current->data) == *(otherIt.current->data);
 }
 
+// returns true if the data stored at the iterator does not equals a different iterator
 template <class type>
 bool Iterator<type>::operator!=(const Iterator<type> &otherIt) const
 {
