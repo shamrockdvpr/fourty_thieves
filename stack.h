@@ -7,6 +7,7 @@ template <class type>
 class stack : public linkedList<type>{
 public:
     // constructor
+    stack();
     stack(int max);
 
     // basic operations
@@ -25,6 +26,12 @@ private:
 
 template <class type>
 stack<type>::stack(int max) : maxSize(max){ 
+    stackTop = nullptr;
+    this->count = 0;
+}
+
+template <class type>
+stack<type>::stack() : maxSize(100){ 
     stackTop = nullptr;
     this->count = 0;
 }

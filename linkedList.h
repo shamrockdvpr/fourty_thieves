@@ -1,6 +1,8 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
+#include <stdexcept>
+
 // Defines a node structure for use in linked lists
 template <class type>
 struct node{
@@ -63,7 +65,7 @@ public:
 
     virtual bool search(const type &searchItem) const;
     virtual void insert(const type &newItem);
-    virtual void deleteItem(const type &deleteItem);
+    virtual void deleteItem(Iterator<type> &deleteItem);
 
     // iterator operations
     Iterator<type> begin();
@@ -222,7 +224,7 @@ void linkedList<type>::insert(const type &newItem)
 
 // deletes item from list
 template <class type>
-void linkedList<type>::deleteItem(const type &deleteItem)
+void linkedList<type>::deleteItem(Iterator<type> &deleteItem)
 {
     // create two nodes, one will point to the object being deleted, one will point to the one before it
     node<type> *curr = first;
@@ -234,7 +236,7 @@ void linkedList<type>::deleteItem(const type &deleteItem)
         throw(std::out_of_range("Cannot delete from empty list"));
     }
 
-	if (deleteItem == *(first->data)){ //first item deletion
+	if (*deleteItem == *(first->data)){ //first item deletion
         found = true;
 		first = first->right;
 		delete curr;
@@ -254,7 +256,7 @@ void linkedList<type>::deleteItem(const type &deleteItem)
 				break;
 			}
 
-			if (deleteItem == *(curr->data)) { //mid list delete
+			if (*deleteItem == *(curr->data)) { //mid list delete
                 found = true;
 				tempTail->right = curr->right;
 				delete curr;

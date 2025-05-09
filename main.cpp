@@ -4,6 +4,8 @@
 
 #include "card.h"
 #include <iostream>
+#include <sstream>
+#include <string>
 #include "doubleLinkedList.h"
 #include "stack.h"
 #include "gamespace.h"
@@ -16,13 +18,14 @@ int main(){
 /* TODO:
 
 - Implement game functions
-    - input parsing
-    - moves
-    - move
-    - undo function
+    - Test move function
+    - REGEX for user input to move function
+    - test undo function
+    - write validation code
+    - write gameplay loop
     - Shuffling!!!
 
-- hint system
+- hint system (if time)
     - tree
     - binary tree
     - hint function
@@ -31,17 +34,13 @@ int main(){
     - Final Tests
     - Playtesting
     - Project Summary
-
 */
 
     gamespace game;
+    std::cout << "+" << std::setw(75) << std::setfill('-') << "+\n" << std::setfill(' ');
+    std::cout << "Welcome to 40 thieves!\n";
     std::cout << game << std::endl;
-    game.moveCards(2, 7);
-    game.moveCards(2, 7);
-    game.moveCards(2, 7);
-    game.moveCards(2, 7);
-    game.moveCards(5, 6);
-    std::cout << game << std::endl;
+    
 
     //gameplay loop
     // show board using <<
