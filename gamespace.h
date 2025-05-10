@@ -1,10 +1,8 @@
 #ifndef GAMESPACE_H
 #define GAMESPACE_H
-#include <algorithm>
 #include "stack.h"
 #include "card.h"
 #include "move.h"
-#include "doubleLinkedList.h"
 
 class gamespace{
 public:
@@ -26,7 +24,7 @@ private:
     stack<card> decks[20];
 
     stack<move> gameHistory;
-    
+
     void shuffle(stack<card>*);
 };
 

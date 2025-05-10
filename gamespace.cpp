@@ -52,7 +52,7 @@ bool gamespace::isValid(stack<card> &startDeck, stack<card> &destDeck)
     if (destDeckType == 1 && startDeckType == 0) return true;
 
     // destination is a foundation
-    if (10 > destDeckType && destDeckType > 2){
+    if (10 > destDeckType && destDeckType >= 2){
 
         // if the foundation isnt empty
         if (!destDeck.isEmpty()){
@@ -73,7 +73,7 @@ bool gamespace::isValid(stack<card> &startDeck, stack<card> &destDeck)
 
 
     // if the destination is a tableau
-    if (destDeckType > 10){
+    if (destDeckType >= 10){
         // if the tableau is empty, any card is valid
         if (destDeck.isEmpty()) return true;
 
@@ -186,10 +186,13 @@ void gamespace::moveCards(std::string startString, std::string destString)
 
 void gamespace::undo()
 {
-    move undoMove = gameHistory.pop();
-    // push the top card from the destination to the start, the reverse of how it was done in the move function
-    (undoMove.getSource())->push((undoMove.getDestination())->pop());
-    score = undoMove.getScore();
+    if (!gameHistory.isEmpty()){
+        move undoMove = gameHistory.pop();
+        // push the top card from the destination to the start, the reverse of how it was done in the move function
+        (undoMove.getSource())->push((undoMove.getDestination())->pop());
+        score = undoMove.getScore();
+    }
+    else throw std::invalid_argument("No moves to undo");
 }
 
 std::ostream &operator<<(std::ostream &out, const gamespace game)
