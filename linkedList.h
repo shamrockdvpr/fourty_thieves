@@ -65,7 +65,7 @@ public:
 
     virtual bool search(const type &searchItem) const;
     virtual void insert(const type &newItem);
-    virtual void deleteItem(Iterator<type> &deleteItem);
+    virtual void deleteItem(const type &deleteItem);
 
     // iterator operations
     Iterator<type> begin();
@@ -224,7 +224,7 @@ void linkedList<type>::insert(const type &newItem)
 
 // deletes item from list
 template <class type>
-void linkedList<type>::deleteItem(Iterator<type> &deleteItem)
+void linkedList<type>::deleteItem(const type &deleteItem)
 {
     // create two nodes, one will point to the object being deleted, one will point to the one before it
     node<type> *curr = first;
@@ -236,10 +236,11 @@ void linkedList<type>::deleteItem(Iterator<type> &deleteItem)
         throw(std::out_of_range("Cannot delete from empty list"));
     }
 
-	if (*deleteItem == *(first->data)){ //first item deletion
+	if (deleteItem == *(first->data)){ //first item deletion
         found = true;
 		first = first->right;
 		delete curr;
+        last = nullptr;
 		--count;
 	}
 
@@ -256,7 +257,7 @@ void linkedList<type>::deleteItem(Iterator<type> &deleteItem)
 				break;
 			}
 
-			if (*deleteItem == *(curr->data)) { //mid list delete
+			if (deleteItem == *(curr->data)) { //mid list delete
                 found = true;
 				tempTail->right = curr->right;
 				delete curr;

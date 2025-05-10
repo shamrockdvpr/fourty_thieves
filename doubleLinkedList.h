@@ -10,7 +10,7 @@ public:
     doubleLinkedList() : linkedList<type>() {};
 
     void insert(const type &newItem) override;
-    void deleteItem(Iterator<type> &deleteItem) override;
+    void deleteItem(const type &deleteItem) override;
 };
 
 // inserts an item into the double directional list
@@ -27,7 +27,6 @@ void doubleLinkedList<type>::insert(const type &newItem)
     if (this->isEmpty()){
         this->first = newNode;
         this->last = newNode;
-        this->first->left = this->last;
 
         ++this->count;
     }
@@ -42,7 +41,7 @@ void doubleLinkedList<type>::insert(const type &newItem)
 }
 
 template <class type>
-void doubleLinkedList<type>::deleteItem(Iterator<type> &deleteItem)
+void doubleLinkedList<type>::deleteItem(const type &deleteItem)
 {
     node<type>* curr = this->first;
     node<type>* tempTail = this->first;
@@ -52,15 +51,26 @@ void doubleLinkedList<type>::deleteItem(Iterator<type> &deleteItem)
         throw(std::out_of_range("Cannot delete from empty list"));
     }
 
-	if (*deleteItem == *(this->first->data)){ //first item deletion
+	if (deleteItem == *(this->first->data)){ //first item deletion
         found = true;
-        // go over to the next item, set the left pointer to the nullptr
-        this->first->right->left = nullptr;
-        // shift the first item to be the previous second item
-		this->first = this->first->right;
-        // delete the node that needs to be deleted and decrease the count
-		delete curr;
-		--this->count;
+
+        // single item in list
+        if (this->first->right == nullptr){
+            this->first = this->first->right;
+            delete curr;
+            this->last = nullptr;
+            --this->count;
+        }
+
+        else{
+            // go over to the next item, set the left pointer to the nullptr
+            this->first->right->left = nullptr;
+            // shift the first item to be the previous second item
+            this->first = this->first->right;
+            // delete the node that needs to be deleted and decrease the count
+            delete curr;
+            --this->count;
+        }
 	}
 
 	else {
@@ -77,7 +87,7 @@ void doubleLinkedList<type>::deleteItem(Iterator<type> &deleteItem)
 				break;
 			}
 
-			if (*deleteItem == *(curr->data)) { //mid list delete
+			if (deleteItem == *(curr->data)) { //mid list delete
                 found = true;
 
                 // set the nodes to point around the current node scheduled for removal

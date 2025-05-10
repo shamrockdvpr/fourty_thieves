@@ -22,13 +22,11 @@ public:
 
 private:
     int score;
-    stack<card> foundations[8];
-    stack<card> tableaus[10];
-    stack<card> waste;
-    stack<card> stock;
-    doubleLinkedList<move> gameHistory;
-    Iterator<move> currentMove;
 
+    stack<card> decks[20];
+
+    stack<move> gameHistory;
+    
     void shuffle(stack<card>*);
 };
 

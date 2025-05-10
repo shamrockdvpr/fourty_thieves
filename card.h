@@ -17,6 +17,7 @@ public:
     const int getNumber() const;
     const std::string getPrintableNum() const;
     const std::string getSuit() const;
+    const Suit getEnumSuit() const;
 
     bool operator<(const card&) const;
     bool operator>(const card&) const;

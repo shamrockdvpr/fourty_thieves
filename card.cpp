@@ -31,6 +31,11 @@ const std::string card::getSuit() const
     }
 }
 
+const Suit card::getEnumSuit() const
+{
+    return suit;
+}
+
 bool card::operator<(const card &otherCard) const
 {
     return this->number < otherCard.number;

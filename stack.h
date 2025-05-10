@@ -31,7 +31,7 @@ stack<type>::stack(int max) : maxSize(max){
 }
 
 template <class type>
-stack<type>::stack() : maxSize(100){ 
+stack<type>::stack() : maxSize(10000){ 
     stackTop = nullptr;
     this->count = 0;
 }

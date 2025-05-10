@@ -9,7 +9,10 @@ public:
         : 
         source(&source), 
         destination(&destination), 
-        score(currentScore){};
+        score(currentScore)
+    {};
+
+    ~move() {source = nullptr; destination = nullptr;};
 
     bool operator<(const move&otherMove) const {return this->score < otherMove.score;};
     bool operator>(const move&otherMove) const {return this->score > otherMove.score;};
@@ -25,6 +28,7 @@ private:
     stack<card>* destination;
     int score;
 };
+
 
 
 
