@@ -3,7 +3,7 @@ main: main.cpp gamespace.h move.h
 	g++ -pedantic-errors -lstdc++ -g main.cpp card gamespace -o main
 
 card: card.h card.cpp
-	g++ -pedantic-errors -g -c card.cpp -o card
+	g++ -pedantic-errors -lstdc++ -g -c card.cpp -o card
 
 gamespace: gamespace.h gamespace.cpp
-	g++ -pedantic-errors -g -c gamespace.cpp -o gamespace
+	g++ -pedantic-errors -lstdc++ -g -c gamespace.cpp -o gamespace
