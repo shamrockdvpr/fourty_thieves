@@ -38,10 +38,11 @@ int main(){
     std::regex helpStr{R"(^\?|help$)"};
     std::regex hintStr{R"(^h|hint$)"};
     std::regex credStr{R"(^c|credits$)"};
+    std::regex resetStr{R"(^r|reset$)"};
 
     std::cout << "+" << std::setw(75) << std::setfill('-') << "+\n" << std::setfill(' ');
     std::cout << "Welcome to 40 thieves!\n";
-    std::cout << "\nAt any time during the game type any of the following:\n: q or quit to quit the game\n: u or undo to undo move\n: h or hint to have the computer generate the optimal move\n: ? or help to bring up a list of commands\n: c or credits to bring up a credits page\n";
+    std::cout << "\nAt any time during the game type any of the following:\n: q or quit to quit the game\n: u or undo to undo move\n: h or hint to have the computer generate the optimal move\n: ? or help to bring up a list of commands\n: c or credits to bring up a credits page\n: r or Reset to reset board\n";
     std::cout << "\nMoves can be entered using the following syntax: deck -> deck\nIdentifiers to the decks can be found on the board\n";
     std::cout << "\nDecks should be in letter-digit form, the letter refers to the deck type:\n- S for the stock, W for the waste or discard pile, T for the tableau, and F for the foundations\nIf you are referencing a tableau or foundation, be sure to include the number of the deck you want\nthe board contains a label next to every deck for convenience";
     std::cout << "\nFor example, all of the following are valid entries: \n - f1 to t5 : moves the card at foundation 1 to foundation 5\n - s->t1 : Moves the card at the stock pile to tableau 1\n - w move to T1 : Moves the card at the waste (or discard) pile to tableau 1\n - s move to t5 : Moves the card at the stock pile to tableau 5\n";
@@ -97,6 +98,8 @@ int main(){
 
         // quit
         if (std::regex_match(line, quitStr)) break;
+
+        if (std::regex_match(line, resetStr)) game.resetGamespace();
 
         else if (std::regex_match(line, credStr)) {
             std::cout << "\n\nThis game was developed by Charlie Shaneck\nVersion: 1.0.0\nLast Updated: 5/10/2025\nWritten using C++ for CSCI 202 Data Structures at Ivy Tech\nContact: cshaneck@ivytech.edu\n";
