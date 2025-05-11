@@ -1,3 +1,10 @@
+/*
+/* Program name: linkedList.h
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Defines a linked list class for use as a base class
+*/ 
+
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 

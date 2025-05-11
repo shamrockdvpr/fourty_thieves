@@ -1,3 +1,10 @@
+/*
+/* Program name: gamespace.cpp
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Defines a gamespace to play the game in
+*/ 
+
 #include "gamespace.h"
 
 // randomly shuffles main deck

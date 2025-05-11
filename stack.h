@@ -1,3 +1,10 @@
+/*
+/* Program name: stack.h
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Defines a stack object for use as decks and game histories
+*/ 
+
 #ifndef STACK_H
 #define STACK_H
 

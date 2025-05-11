@@ -1,3 +1,10 @@
+/*
+/* Program name: move.h
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Defines a move in the game
+*/ 
+
 #ifndef MOVE_H
 #define MOVE_H
 #include "stack.h"

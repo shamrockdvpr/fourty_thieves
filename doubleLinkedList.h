@@ -1,3 +1,10 @@
+/*
+/* Program name: doubleLinkedList.h
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Define a double linked list class
+*/ 
+
 #ifndef DOUBLELINKEDLIST_H
 #define DOUBLELINKEDLIST_H
 

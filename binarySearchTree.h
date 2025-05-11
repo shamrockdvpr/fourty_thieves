@@ -1,3 +1,10 @@
+/*
+/* Program name: binarySearchTree.h
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Defines a binary search tree for use as a hint ai system
+*/ 
+
 #ifndef SEARCH_H
 #define SEARCH_H
 #include "binaryTree.h"

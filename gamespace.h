@@ -1,3 +1,10 @@
+/*
+/* Program name: gamespace.h
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Defines a gamespace class
+*/ 
+
 #ifndef GAMESPACE_H
 #define GAMESPACE_H
 #include "stack.h"

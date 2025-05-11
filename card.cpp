@@ -1,3 +1,10 @@
+/*
+/* Program name: card.cpp
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Define functionality of a card object in the game
+*/ 
+
 #include "card.h"
 
 // initializes a card with a number and suit. NOTE: these are constant variables
@@ -68,36 +75,6 @@ bool card::operator!=(const card &otherCard) const
 
 std::ostream &operator<<(std::ostream &out, const card &cardOut)
 {
-    // out << "\n+----+\n";
-    // out << "|" << cardOut.getSuit() << "   |\n";
-    // out << "|    |\n";
-
-    // switch (cardOut.number)
-    // {
-    //     case 13:{
-    //         out << "|  " << std::setw(2) << "K" << "|\n";
-    //         break;
-    //     }    
-    //     case 12:{
-    //         out << "|  " << std::setw(2) << "Q" << "|\n";
-    //         break;
-    //     }
-    //     case 11:{
-    //         out << "|  " << std::setw(2) << "J" << "|\n";
-    //         break;
-    //     }
-    //     case 1:{
-    //         out << "|  " << std::setw(2) << "A" << "|\n";
-    //         break;
-    //     }
-    //     default:{
-    //         out << "|  " << std::setw(2) << cardOut.number << "|\n";
-    //         break;
-    //     }
-    // }
-
-    
-    // out << "+----+\n";
     out << "[" << cardOut.getSuit() << std::setw(2) << cardOut.getPrintableNum() << "]";
     return out;
 }

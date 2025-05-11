@@ -1,3 +1,10 @@
+/*
+/* Program name: binaryTree.h
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Define a binary tree base class for extension to the binary search tree
+*/ 
+
 #ifndef TREE_H
 #define TREE_H
 #include "linkedList.h"

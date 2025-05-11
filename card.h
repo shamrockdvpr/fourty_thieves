@@ -1,3 +1,10 @@
+/*
+/* Program name: card.h
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Define a card class in the game
+*/ 
+
 #ifndef CARD_H
 #define CARD_H
 #include <string>

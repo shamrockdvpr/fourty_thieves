@@ -1,3 +1,10 @@
+/*
+/* Program name: main.cpp
+* Author: Charlie Shaneck
+* Date last updated: 5/10/2025
+* Purpose: Play the game of 40 Thieves solitaire
+*/ 
+
 #ifdef _WIN32
 #include <Windows.h>
 #endif
