@@ -9,6 +9,7 @@ public:
     // constructor
     stack();
     stack(int max);
+    void initializeList() override;
 
     // basic operations
     const bool isFull() const {return this->count >= maxSize;};
@@ -19,6 +20,8 @@ public:
     type pop();
     type peek() const;
 
+    
+
 private:
     node<type>* stackTop;
     const int maxSize;
@@ -27,6 +30,19 @@ private:
 template <class type>
 stack<type>::stack(int max) : maxSize(max){ 
     stackTop = nullptr;
+    this->count = 0;
+}
+
+template <class type>
+void stack<type>::initializeList() {
+    node<type> *temp; //create a pointer to delete items
+
+    while (stackTop != nullptr){
+        temp = stackTop;
+        stackTop = stackTop->right;
+        delete temp;
+    }
+
     this->count = 0;
 }
 

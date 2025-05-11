@@ -55,7 +55,7 @@ public:
 
     // minor operations
 
-    void initializeList();
+    virtual void initializeList();
     virtual bool isEmpty() const;
     int length() const;
     type front() const;

@@ -5,53 +5,14 @@
 template <class type>
 class binarySearchTree : public binaryTree<type>{
 public:
-    bool search(const type &searchItem) const override;
     void insert(const type &insertItem) override;
     void deleteNode(const type &deleteItem) override;
+    type getMax();
 
 private:
-    bool searchFromNode(const type &searchItem, node<type>* currentNode) const;
     void insertFromNode(node<type>*& newNode, node<type>*& currentNode);
     void deleteNodeFromTree(node<type>*& deathRowNode);
 };
-
-template <class type>
-bool binarySearchTree<type>::searchFromNode(const type &searchItem, node<type>* currentNode) const
-{
-    // ensure that we aren't looking at an empty node
-    if (currentNode != nullptr){
-
-        // if the search item equals the current node
-        if (searchItem == *(currentNode->info)){
-
-            // output the node
-            std::cout << *(currentNode->info) << '\n';
-
-            // exit the function
-            return true;
-        }
-
-        // if the search item is less than the current node, search the left side
-        if (searchItem < *(currentNode->info)){
-            return searchFromNode(searchItem, currentNode->lLink);
-        }
-
-        // if the search item is greater than the current node, search the right side
-        else if (searchItem > *(currentNode->info)){
-            return searchFromNode(searchItem, currentNode->rLink);
-        }
-    }
-
-    // if we didn't find it, we can assume the function failed and return false
-    return false;
-}
-
-template <class type>
-bool binarySearchTree<type>::search(const type &searchItem) const
-{
-    // starts off the recusrive search from the root node
-    return searchFromNode(searchItem, this->root);
-}
 
 template<class type>
 void binarySearchTree<type>::insertFromNode(node<type>*& newNode, node<type>*& currentNode)
@@ -63,18 +24,18 @@ void binarySearchTree<type>::insertFromNode(node<type>*& newNode, node<type>*& c
 
     else{
         // We can't have duplicate items
-        if (*(currentNode->info) == *(newNode->info)){
+        if (*(currentNode->data) == *(newNode->data)){
             throw std::invalid_argument("Duplicate items not allowed (Line 84)");
         }
 
         // if the new node is greater than the current node, work down the right subtree
-        else if(*(currentNode->info) < *(newNode->info)){
-            insertFromNode(newNode, currentNode->rLink);
+        else if(*(currentNode->data) < *(newNode->data)){
+            insertFromNode(newNode, currentNode->right);
         }
 
         // if the new node is less than the current node, work down the left subtree
-        else if(*(currentNode->info) > *(newNode->info)){
-            insertFromNode(newNode, currentNode->lLink);
+        else if(*(currentNode->data) > *(newNode->data)){
+            insertFromNode(newNode, currentNode->left);
         }
     }
 }
@@ -84,9 +45,9 @@ void binarySearchTree<type>::insert(const type &insertItem)
 {
     // create a new node, populate it with the item to be inserted
     node<type>* newNode = new node<type>;
-    newNode->info = new type(insertItem);
-    newNode->lLink = nullptr;
-    newNode->rLink = nullptr;
+    newNode->data = new type(insertItem);
+    newNode->left = nullptr;
+    newNode->right = nullptr;
 
     // try to insert node, starting at root, if it fails, throw an error and delete the memory to prevent leaks
     try
@@ -95,7 +56,7 @@ void binarySearchTree<type>::insert(const type &insertItem)
     }
     catch(const std::invalid_argument &e)
     {
-        std::cout << e.what();
+        //std::cout << e.what();
         delete newNode;
     }
     
@@ -117,7 +78,7 @@ void binarySearchTree<type>::deleteNode(const type &deleteItem)
     while (currentNode != nullptr){
 
         // if the current item and the item to be deleted match, then decided how to delete the item
-        if (deleteItem == *(currentNode->info)){
+        if (deleteItem == *(currentNode->data)){
 
             found = true;
 
@@ -127,13 +88,13 @@ void binarySearchTree<type>::deleteNode(const type &deleteItem)
             }
 
             // if the item is less than the parent
-            if (deleteItem < *(parentNode->info)){
-                deleteNodeFromTree(parentNode->lLink);
+            if (deleteItem < *(parentNode->data)){
+                deleteNodeFromTree(parentNode->left);
             }
 
             // if the item is greater than the parent
-            else if (deleteItem > *(parentNode->info)){
-                deleteNodeFromTree(parentNode->rLink);
+            else if (deleteItem > *(parentNode->data)){
+                deleteNodeFromTree(parentNode->right);
             }
 
             break;
@@ -141,14 +102,14 @@ void binarySearchTree<type>::deleteNode(const type &deleteItem)
 
         // if its less than, move to the left, greater than, move to the right
 
-        else if (deleteItem > *(currentNode->info)){
+        else if (deleteItem > *(currentNode->data)){
             parentNode = currentNode;
-            currentNode = currentNode->rLink;
+            currentNode = currentNode->right;
         }
 
-        else if (deleteItem < *(currentNode->info)){
+        else if (deleteItem < *(currentNode->data)){
             parentNode = currentNode;
-            currentNode = currentNode->lLink;
+            currentNode = currentNode->left;
         }
     }
 
@@ -156,6 +117,17 @@ void binarySearchTree<type>::deleteNode(const type &deleteItem)
     if (!found){
         throw std::invalid_argument("is not found in the tree");
     }
+}
+
+template <class type>
+type binarySearchTree<type>::getMax()
+{
+    node<type> *currentNode;
+    currentNode = this->root;
+    while(currentNode->right != nullptr){
+        currentNode = currentNode->right;
+    }
+    return *(currentNode->data);
 }
 
 template <class type>
@@ -172,23 +144,23 @@ void binarySearchTree<type>::deleteNodeFromTree(node<type>*& deathRowNode)
     }
 
     // if the node is a leaf, free the node pointer, and delete the node
-    if (deathRowNode->lLink == nullptr && deathRowNode->rLink == nullptr){
+    if (deathRowNode->left == nullptr && deathRowNode->right == nullptr){
         temporaryNode = deathRowNode;
         deathRowNode = nullptr;
         delete temporaryNode;
     }
 
     // if the left side is empty, cut the deleting node out and replace with the right side subtree
-    else if (!deathRowNode->lLink){
+    else if (!deathRowNode->left){
         temporaryNode = deathRowNode;
-        deathRowNode = temporaryNode->rLink;
+        deathRowNode = temporaryNode->right;
         delete temporaryNode;
     }
 
     // if the right side is empty, cut the deleting node out and replace with the left side subtree
-    else if (!deathRowNode->rLink){
+    else if (!deathRowNode->right){
         temporaryNode = deathRowNode;
-        deathRowNode = temporaryNode->lLink;
+        deathRowNode = temporaryNode->left;
         delete temporaryNode;
     }
 
@@ -198,27 +170,27 @@ void binarySearchTree<type>::deleteNodeFromTree(node<type>*& deathRowNode)
         // delete the data previously stored in the node, delete the successor
 
         // set the replacement node to the root of the right side subtree
-        replacementNode = deathRowNode->rLink;
+        replacementNode = deathRowNode->right;
         replacementParent = nullptr;
 
         // while there are nodes below on the left side, move downwards
-        while (replacementNode->lLink != nullptr)
+        while (replacementNode->left != nullptr)
         {
             replacementParent = replacementNode;
-            replacementNode = replacementNode->lLink;
+            replacementNode = replacementNode->left;
         }
 
         // extract the data from the node that needs to be deleted into a temporary storage
-        type *tempInfo = deathRowNode->info;
+        type *tempdata = deathRowNode->data;
 
         // replace the data in the node with the successor data
-        deathRowNode->info = replacementNode->info;
+        deathRowNode->data = replacementNode->data;
 
         // replace the successor node with the temporary data
-        replacementNode->info = tempInfo;
+        replacementNode->data = tempdata;
 
         // remove the left link of the parent of the replacement node
-        replacementParent->lLink = nullptr;
+        replacementParent->left = nullptr;
         // delete the replacement and set it to nullptr
         delete replacementNode;
         replacementNode = nullptr;
